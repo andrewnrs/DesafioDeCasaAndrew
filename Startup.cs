@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using DesafioDeCasa.Data;
 
 namespace DesafioDeCasa
 {
@@ -26,6 +28,13 @@ namespace DesafioDeCasa
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<DesafioDeCasaContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DesafioDeCasaContext")));
+
+            services.AddScoped<DesafioDeCasaContext, DesafioDeCasaContext>();
+            services.AddHttpContextAccessor();
+            services.AddRouting();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +43,13 @@ namespace DesafioDeCasa
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // TODO: Implementar o tratamento de erro e a página
+                //app.UseExceptionHandler("/Error/Ops");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //app.UseHsts();
             }
 
             app.UseHttpsRedirection();
