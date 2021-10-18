@@ -44,10 +44,31 @@ namespace DesafioDeCasa.Repositories
             return false;
         }
 
-        public bool PagarLoja(Pessoa pagador, double valor, long idPessoaRecebedora)
+        public bool PagarLoja(Pessoa pagador, double valor, Loja recebedor)
         {
+            using var transaction = _context.Database.BeginTransaction();
 
-            return true;
+            try
+            {
+
+                pagador.saldo -= valor;
+                recebedor.saldo += valor;
+
+                _context.Pessoa.Update(pagador);
+                _context.Loja.Update(recebedor);
+
+                _context.SaveChanges();
+
+                transaction.Commit();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                // TODO: Gerenciar excessões   
+            }
+
+            return false;
         }
 
         public bool PessoaUnica(Pessoa pessoa)

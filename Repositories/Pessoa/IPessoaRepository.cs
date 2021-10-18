@@ -11,6 +11,6 @@ namespace DesafioDeCasa.Repositories
     public interface IPessoaRepository : IRepository<Pessoa>
     {
         bool PagarPessoa(Pessoa pagador, double valor, Pessoa recebedor);
-        bool PagarLoja(Pessoa pagador, double valor, long idLojaRecebedora);
+        bool PagarLoja(Pessoa pagador, double valor, Loja recebedor);
     }
 }

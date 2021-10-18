@@ -15,5 +15,6 @@ namespace DesafioDeCasa.Data
         }
 
         public DbSet<DesafioDeCasa.Models.Pessoa> Pessoa { get; set; }
+        public DbSet<DesafioDeCasa.Models.Loja> Loja { get; set; }
     }
 }

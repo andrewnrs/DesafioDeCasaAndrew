@@ -62,7 +62,7 @@ namespace DesafioDeCasa.Controllers
         // POST: Pessoas
         // Bind para proteger de 'Overposting Attacks'
         [HttpPost("")]
-        public ActionResult<Pessoa> Post([FromServices] DesafioDeCasaContext context, [Bind("cpf,email,nome,senha,saldo")][FromBody] Pessoa pessoa)
+        public ActionResult<Pessoa> Post([Bind("cpf,email,nome,senha,saldo")][FromBody] Pessoa pessoa)
         {
             if (ModelState.IsValid)
             {
@@ -92,6 +92,21 @@ namespace DesafioDeCasa.Controllers
         public ActionResult<Pessoa> PagarPessoa(long idPagador, long idRecebedor, double valor)
         {
             Pessoa pessoa = _pessoaService.PagarPessoa(idPagador, valor, idRecebedor);
+
+            if (pessoa != null)
+            {
+                return pessoa;
+            }
+
+            return BadRequest(ModelState);
+            // TODO: Rever retorno caso não
+        }
+
+        // PUT: Pagar Pessoas -- Pessoas/1/PagarPessoa/1/10
+        [HttpPut("{idPagador}/PagarLoja/{idRecebedor}/{valor}")]
+        public ActionResult<Pessoa> PagarLoja(long idPagador, long idRecebedor, double valor)
+        {
+            Pessoa pessoa = _pessoaService.PagarLoja(idPagador, valor, idRecebedor);
 
             if (pessoa != null)
             {

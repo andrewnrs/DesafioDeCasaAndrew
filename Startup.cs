@@ -37,6 +37,7 @@ namespace DesafioDeCasa
             services.AddScoped<DesafioDeCasaContext, DesafioDeCasaContext>(); 
             services.AddScoped<IPessoaRepository, PessoaRepository>();
             services.AddScoped<PessoaService, PessoaService>();
+            services.AddScoped<LojaService, LojaService>();
             services.AddHttpContextAccessor();
             services.AddRouting();
         }
