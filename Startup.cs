@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DesafioDeCasa.Data;
+using DesafioDeCasa.Repositories;
+using DesafioDeCasa.Services;
 
 namespace DesafioDeCasa
 {
@@ -32,7 +34,9 @@ namespace DesafioDeCasa
             services.AddDbContext<DesafioDeCasaContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DesafioDeCasaContext")));
 
-            services.AddScoped<DesafioDeCasaContext, DesafioDeCasaContext>();
+            services.AddScoped<DesafioDeCasaContext, DesafioDeCasaContext>(); 
+            services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddScoped<PessoaService, PessoaService>();
             services.AddHttpContextAccessor();
             services.AddRouting();
         }
