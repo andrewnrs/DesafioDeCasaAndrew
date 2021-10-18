@@ -1,0 +1,16 @@
+﻿version: '3'
+services:
+  web-app:
+    image: desafiodecasa
+    build: .
+    depends_on:
+      - 'appdb'
+    ports:
+      - 80:80
+  appdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=Banco01!
+      - ACCEPT_EULA=Y
+    ports:
+      - 1433:1433

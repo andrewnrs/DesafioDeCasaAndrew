@@ -31,7 +31,7 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/Pessoas",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": false
     }
   }
 }

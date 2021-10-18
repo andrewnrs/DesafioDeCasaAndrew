@@ -23,3 +23,14 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "DesafioDeCasa.dll"]
+
+FROM mcr.microsoft.com/mssql/server:2019-latest
+USER root
+WORKDIR /app
+COPY . ./
+# Grant permissions for the import-data script to be executable
+RUN chmod +x initializer-sql.sh
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=Banco01!
+EXPOSE 1433
+CMD /bin/bash ./entrypoint.sh
