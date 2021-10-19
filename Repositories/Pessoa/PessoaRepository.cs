@@ -71,7 +71,7 @@ namespace DesafioDeCasa.Repositories
             return false;
         }
 
-        public bool PessoaUnica(Pessoa pessoa)
+        public bool PessoaNova(Pessoa pessoa)
         {
             return !_context.Pessoa.Any(e => e.cpf.ToLower().Equals(pessoa.cpf.ToLower())) && !_context.Pessoa.Any(e => e.email.ToLower().Equals(pessoa.email.ToLower()));
         }

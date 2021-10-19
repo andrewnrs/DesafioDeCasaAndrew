@@ -1,6 +1,7 @@
 ﻿using DesafioDeCasa.Data;
 using DesafioDeCasa.Models;
 using DesafioDeCasa.Repositories;
+using DesafioDeCasa.EmailHandler;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,18 @@ namespace DesafioDeCasa.Services
 
         private readonly DesafioDeCasaContext _context;
         private readonly LojaService _lojaService;
+        private GerenciadorDeEmail _gerenciadorDeEmail;
 
         public PessoaService([FromServices] DesafioDeCasaContext context, [FromServices] LojaService lojaService) : base(context)
         {
             _context = context;
             _lojaService = lojaService;
+            _gerenciadorDeEmail = new GerenciadorDeEmail();
         }
 
         public Pessoa AdicionarPessoa(Pessoa pessoa)
         {
-            if (PessoaUnica(pessoa))
+            if (PessoaNova(pessoa))
             {
                 return Adicionar(pessoa);
             }
@@ -45,7 +48,7 @@ namespace DesafioDeCasa.Services
 
         public Pessoa PagarPessoa(long idPagador, double valor, long idRecebedor)
         {
-            if(PessoaExiste(idPagador) && PessoaExiste(idPagador))
+            if(PessoaExiste(idPagador) && PessoaExiste(idRecebedor))
             {
                 Pessoa pagador = Get(idPagador);
                 Pessoa recebedor = Get(idRecebedor);
@@ -54,6 +57,7 @@ namespace DesafioDeCasa.Services
                 {
                     if (PagarPessoa(pagador, valor, recebedor))
                     {
+                        _gerenciadorDeEmail.EnviarEmails(pagador.email, recebedor.email, valor, pagador.nome, recebedor.nome);
                         return Get(idPagador);
                     }
                 }
@@ -63,7 +67,7 @@ namespace DesafioDeCasa.Services
 
         public Pessoa PagarLoja(long idPagador, double valor, long idRecebedor)
         {
-            if (PessoaExiste(idPagador) && _lojaService.LojaExiste(idPagador))
+            if (PessoaExiste(idPagador) && _lojaService.LojaExiste(idRecebedor))
             {
                 Pessoa pagador = Get(idPagador);
 
@@ -73,6 +77,7 @@ namespace DesafioDeCasa.Services
                 {
                     if (PagarLoja(pagador, valor, recebedor))
                     {
+                        _gerenciadorDeEmail.EnviarEmails(pagador.email, recebedor.email, valor, pagador.nome, recebedor.nome);
                         return Get(idPagador);
                     }
                 }
@@ -82,7 +87,7 @@ namespace DesafioDeCasa.Services
 
         internal ActionResult<Pessoa> Atualizar(long id, Pessoa pessoaNova)
         {
-            if (PessoaExiste(id))
+            if (PessoaExiste(id) && !PessoaNova(pessoaNova))
             {
                 return Atualizar(pessoaNova);
             }

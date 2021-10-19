@@ -17,7 +17,7 @@ namespace DesafioDeCasa.Repositories
             _context = context;
         }
 
-        public bool LojaUnica(Loja loja)
+        public bool LojaNova(Loja loja)
         {
             // TODO: desconsiderando o fato de Lojas e pessoas possuírem o mesmo email
             return !_context.Loja.Any(e => e.cnpj.ToLower().Equals(loja.cnpj.ToLower())) && !_context.Loja.Any(e => e.email.ToLower().Equals(loja.email.ToLower()));

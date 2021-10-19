@@ -20,14 +20,14 @@ namespace DesafioDeCasa.Controllers
         }
 
         // GET: Lojas
-        [HttpGet("{id}/PagarPessoa/{id}/{valor}")]
+        [HttpGet("{idPagador}/PagarPessoa/{idRecebedor}/{valor}")]
         public string PagarPessoa()
         {
             return "Opção não disponível para Lojas";
         }
 
         // GET: Lojas
-        [HttpGet("{id}/PagarLoja/{id}/{valor}")]
+        [HttpGet("{idPagador}/PagarLoja/{idRecebedor}/{valor}")]
         public string PagarLoja()
         {
             return "Opção não disponível para Lojas";
@@ -42,21 +42,21 @@ namespace DesafioDeCasa.Controllers
 
         // GET: Lojas/id 
         [HttpGet("{id}")]
-        public ActionResult<Loja> Get(long id)
+        public ActionResult<Loja> Get([FromRoute] long id)
         {
             return _lojaService.Get(id);
         }
 
         // POST: Lojas/Remover/id
         [HttpPost("Remover/{id}")]
-        public ActionResult<Loja> Remover(long id)
+        public ActionResult<Loja> Remover([FromRoute] long id)
         {
             return _lojaService.Remover(id);
         }
 
-        // GET: Lojas/Atualizar/id
-        [HttpPost("Atualizar/{id}")]
-        public ActionResult<Loja> Atualizar(long id, [Bind("cnpj,email,nome,senha,saldo")][FromBody] Loja loja)
+        // PUT: Lojas/Atualizar/id
+        [HttpPut("Atualizar/{id}")]
+        public ActionResult<Loja> Atualizar([FromRoute] long id, [Bind("cnpj,email,nome,senha,saldo")][FromBody] Loja loja)
         {
             return _lojaService.Atualizar(id, loja);
         }

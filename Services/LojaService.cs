@@ -20,7 +20,7 @@ namespace DesafioDeCasa.Services
 
         public Loja AdicionarLoja(Loja loja)
         {
-            if (LojaUnica(loja))
+            if (LojaNova(loja))
             {
                 return Adicionar(loja);
             }
@@ -42,7 +42,7 @@ namespace DesafioDeCasa.Services
 
         internal ActionResult<Loja> Atualizar(long id, Loja lojaNova)
         {
-            if (LojaExiste(id))
+            if (LojaExiste(id) && !LojaNova(lojaNova))
             {
                 return Atualizar(lojaNova);
             }
