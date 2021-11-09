@@ -40,7 +40,7 @@ namespace DesafioDeCasa.EmailHandler
                 smtp.Host = "smtp.gmail.com";
                 smtp.Port = 587;
                 smtp.Credentials = new NetworkCredential(remetente, senha);
-                smtp.Timeout = 30000;
+                smtp.Timeout = 20000;
 
                 try
                 {
